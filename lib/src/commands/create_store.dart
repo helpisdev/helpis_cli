@@ -166,8 +166,11 @@ extension SafeReadWrite on SharedPreferences {
       ListString => await setStringList(key, val as ListString),
       _ => throw StateError(
         'Unsupported type. Supported value types are:'
-        \n'\\n- bool'\n'\\n- int'\n'\\n- double'
-        \n'\\n- String'\n'\\n- List<String>',
+        '\n- bool'
+        '\n- int'
+        '\n- double'
+        '\n- String'
+        '\n- List',
       ),
     };
 }
