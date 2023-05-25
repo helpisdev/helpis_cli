@@ -102,6 +102,7 @@ class CreateCommand extends Command<void> with CommandMixin {
         valueHelp: 'revolt.example.com/my_project',
       )
       ..addOption(
+        'ide',
         help: 'Choose your development IDE. Defaults to "idea"',
         defaultsTo: 'vscode',
         allowedHelp: <String, String>{
@@ -551,7 +552,7 @@ class CreateCommand extends Command<void> with CommandMixin {
     revolt = args['revolt']?.toString();
     homepage = args['homepage']?.toString();
     version = args['version']?.toString() ?? '0.1.0';
-    ide = args['IDE']?.toString() ?? '';
+    ide = args['ide']?.toString() ?? '';
     submodules = (args['submodules'] ?? <String>[]) as List<dynamic>;
     locales = (args['locales'] ?? <String>[]) as List<dynamic>;
     platforms = args['platforms'] as List<dynamic>? ?? <String>[];
