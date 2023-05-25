@@ -146,7 +146,7 @@ flutter:
 #      fonts:
 #        - asset: assets/fonts/comfortaa.ttf
 ''' : ''}
-${flavors.isNotEmpty && org != null ? '''
+${flavors.isNotEmpty ? '''
 flavorizr:
   ide: $ide
   instructions: [
