@@ -307,6 +307,7 @@ class CreateCommand extends Command<void> with CommandMixin {
       );
     activateBrick(brickName: brick);
     runMason(brick: brick, path: path);
+    await Directory('$pwd$separator.mason').delete(recursive: true);
     await Directory('$pwd${separator}mason_templates').delete(recursive: true);
     Directory.current = join(pwd, _name);
   }
