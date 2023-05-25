@@ -85,6 +85,7 @@ class CreateStoreCommand extends Command<void> with commands.CommandMixin {
 library storage_service;
 
 import 'dart:core';
+
 import 'package:shared_preferences/shared_preferences.dart';
 ''');
     for (final String i in imports ?? <String>[]) {
