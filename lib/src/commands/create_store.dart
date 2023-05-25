@@ -72,6 +72,9 @@ class CreateStoreCommand extends Command<void> with commands.CommandMixin {
       ..writeln(_imports())
       ..writeln(_controller());
     target = (args['target'] as String?)!;
+    if (!exists(target)) {
+      createDir(target, recursive: true);
+    }
     join(target, 'storage_service.helpis.dart').write(buffer.toString());
     executeProcess('dart', args: <String>['format', 'lib']);
   }
