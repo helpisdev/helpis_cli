@@ -7,6 +7,8 @@ void pubspecTemplate({
   required final String name,
   required final String version,
   required final String ide,
+  final bool fluttergen = true,
+  final String? fluttergenColors,
   final String? org,
   final String? description,
   final String? repository,
@@ -166,7 +168,7 @@ flavorizr:
   flavors:
 $flvrs
 ''' : ''}
-${!isDart ? '''
+${!isDart && fluttergen ? '''
 flutter_gen:
   output: lib/src/gen
   line_length: 80
@@ -179,10 +181,12 @@ flutter_gen:
     enabled: true
   fonts:
     enabled: true
+${fluttergenColors != null ? '''
   colors:
     enabled: true
     inputs:
-      - assets/color/colors.xml
+      - $fluttergenColors
+''' : ''}
   ''' : ''}
 ''';
   join(pwd, 'pubspec.yaml').write(pubspec);

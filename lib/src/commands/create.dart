@@ -27,6 +27,12 @@ class CreateCommand extends Command<void> with CommandMixin {
         help: 'Raw Dart project. Defaults to false.',
         negatable: false,
       )
+      ..addFlag(
+        'fluttergen',
+        help: 'Whether to use fluttergen generator. Defaults to true.',
+        negatable: false,
+        defaultsTo: true,
+      )
       ..addOption(
         'name',
         help: "The project's name. The package's name should follow Dart's "
@@ -38,6 +44,11 @@ class CreateCommand extends Command<void> with CommandMixin {
         'description',
         help: "The project's description.",
         valueHelp: 'My cool description',
+      )
+      ..addOption(
+        'fluttergenColors',
+        help: 'Color file to be feeded to fluttergen. Must be relative.',
+        valueHelp: 'path/to/assets/colors.xml',
       )
       ..addOption(
         'author',
@@ -139,7 +150,7 @@ class CreateCommand extends Command<void> with CommandMixin {
     executeProcess('dart', args: <String>[...activate, 'mason']);
     executeProcess('dart', args: <String>[...activate, 'mason_cli']);
     executeProcess('dart', args: <String>[...activate, 'webdev']);
-    if (!isDart) {
+    if (!isDart && fluttergen) {
       executeProcess('dart', args: <String>[...activate, 'flutter_gen']);
     }
   }
@@ -256,6 +267,7 @@ class CreateCommand extends Command<void> with CommandMixin {
         jsonEncode(
           mason(
             isDart: isDart,
+            fluttergen: fluttergen,
             flavors: flavors,
             name: _name,
             author: author ?? '',
@@ -367,14 +379,12 @@ class CreateCommand extends Command<void> with CommandMixin {
       }
 
       executeProcess('flutter', args: <String>['gen-l10n']);
-      executeProcess(
-        'flutter',
-        args: <String>['pub', 'run', 'icons_launcher:create'],
-      );
-      try {
-        executeProcess('fluttergen');
-      } on Exception catch (e) {
-        _onError(e, customMessage: 'fluttergen failed with message:');
+      if (fluttergen) {
+        try {
+          executeProcess('fluttergen');
+        } on Exception catch (e) {
+          _onError(e, customMessage: 'fluttergen failed with message:');
+        }
       }
       join('android', 'app', 'build.gradle').write(
         _PlatformDependentConfig(
@@ -448,6 +458,8 @@ class CreateCommand extends Command<void> with CommandMixin {
       name: _name,
       org: org,
       description: _description,
+      fluttergenColors: join(Directory.current.parent.path, fluttergenColors),
+      fluttergen: fluttergen,
       repository: repository,
       homepage: homepage,
       version: version,
@@ -477,6 +489,8 @@ class CreateCommand extends Command<void> with CommandMixin {
     isDart = args['dart'] as bool? ?? false;
     _name = args['name']?.toString() ?? '';
     org = args['org']?.toString();
+    fluttergenColors = args['fluttergenColors']?.toString();
+    fluttergen = bool.parse(args['fluttergen']?.toString() ?? 'true');
     _description = args['description']?.toString();
     repository = args['repository']?.toString();
     author = args['author']?.toString();
@@ -499,21 +513,8 @@ class CreateCommand extends Command<void> with CommandMixin {
   @override
   String get name => cmd.Command.create.name;
 
-  late final String version;
-  late final String ide;
-  late final String _name;
-  late final String? _description;
-  late final String? org;
-  late final String? repository;
-  late final String? homepage;
-  late final String? author;
-  late final String? authorUsername;
-  late final String? revolt;
-  late final bool isDart;
-  late final List<dynamic> locales;
-  late final List<dynamic> flavors;
-  late final List<dynamic> submodules;
-  late final List<dynamic> platforms;
+  String? fluttergenColors;
+  bool fluttergen = true;
 }
 
 class _PlatformDependentConfig {

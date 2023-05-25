@@ -1,5 +1,6 @@
 Map<String, dynamic> mason({
   required final bool isDart,
+  required final bool fluttergen,
   required final List<dynamic> flavors,
   required final String name,
   required final String author,
@@ -15,6 +16,7 @@ Map<String, dynamic> mason({
 }) =>
     <String, dynamic>{
       'dart': isDart,
+      'fluttergen': fluttergen,
       'hasFlavors': flavors.isNotEmpty,
       'flavors': flavors,
       'name': name,
