@@ -42,9 +42,13 @@ mixin CommandMixin {
         brick,
         '-c',
         'config.json',
+        '--on-conflict',
+        'overwrite',
       ],
     );
     delete(config);
+    delete(join(pwd, 'mason.yaml'));
+    delete(join(pwd, 'mason-lock.json'));
   }
 
   /// Activates a provided brick
@@ -53,11 +57,11 @@ mixin CommandMixin {
     final bool local = true,
     final String? path,
   }) {
+    executeProcess('mason', args: <String>['init']);
     executeProcess(
       'mason',
       args: <String>[
         'add',
-        '-g',
         brickName,
         if (local) ...<String>[
           '--path',
