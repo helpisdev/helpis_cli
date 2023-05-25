@@ -70,55 +70,55 @@ ${!isDart ? '''
     sdk: flutter
   flutter_web_plugins:
     sdk: flutter
-  accessibility_tools:
-  app_links:
-  cupertino_icons:
-  flex_color_scheme:
-  flutter_svg:
-  rive:
-  lottie:
-  flutter_riverpod:
-  go_router:
-  google_fonts:
-  handy_window:
-  ''' : '''riverpod:'''}
-  collection:
-  intl:
-  path_provider:
-  path:
-  platform:
-  riverpod_annotation:
-  shared_preferences:
-  universal_io:
-  upgrader:
-  url_launcher:
-  uuid:
+  accessibility_tools: any
+  app_links: any
+  cupertino_icons: any
+  flex_color_scheme: any
+  flutter_svg: any
+  rive: any
+  lottie: any
+  flutter_riverpod: any
+  go_router: any
+  google_fonts: any
+  handy_window: any
+  ''' : '''riverpod: any'''}
+  collection: any
+  intl: any
+  path_provider: any
+  path: any
+  platform: any
+  riverpod_annotation: any
+  shared_preferences: any
+  universal_io: any
+  upgrader: any
+  url_launcher: any
+  uuid: any
   $submods
 
 dev_dependencies:
-  mocktail:
-  test:
-  build_web_compilers:
-  build_test:
-  build_runner:
-  ${!isDart ? '''flutter_gen_runner:
-  bdd_widget_test:
-  go_router_builder:
-  ${flavors.isNotEmpty ? 'flutter_flavorizr:' : ''}
+  mocktail: any
+  test: any
+  build_web_compilers: any
+  build_test: any
+  build_runner: any
+  ${!isDart ? '''flutter_gen_runner: any
+  bdd_widget_test: any
+  go_router_builder: any
+  ${flavors.isNotEmpty ? 'flutter_flavorizr: any' : ''}
   flutter_driver:
     sdk: flutter
   flutter_test:
     sdk: flutter
-  alchemist:
+  alchemist: any
   flutter_goldens:
     sdk: flutter
   integration_test:
     sdk: flutter
   ''' : ''}
-  spec:
-  icons_launcher:
-  checked_yaml:
-  riverpod_generator:
+  spec: any
+  icons_launcher: any
+  checked_yaml: any
+  riverpod_generator: any
 
 ${!isDart ? '''
 flutter:
