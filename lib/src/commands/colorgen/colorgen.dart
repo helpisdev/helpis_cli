@@ -8,6 +8,7 @@ import '../commands.dart' as cmd;
 import 'models.dart';
 import 'serialized_code_contents.dart';
 import 'theme.dart';
+import 'theme_provider.dart';
 import 'utils.dart';
 import 'xml.dart';
 
@@ -16,21 +17,18 @@ class ColorGenCommand extends Command<void> with cmd.CommandMixin {
     argParser
       ..addOption(
         'target',
-        abbr: 't',
         help: 'The location of the .xml file '
             'that specifies the color properties.',
         defaultsTo: 'assets/color/colors.xml',
       )
       ..addOption(
         'out',
-        abbr: 'o',
         help: 'The location of the generated code file.',
         defaultsTo: 'lib/src/gen/theme/colors.helpis.dart',
         aliases: <String>['output'],
       )
       ..addOption(
         'name',
-        abbr: 'n',
         help: 'Application name to use in the generated code.',
         defaultsTo: 'app',
       );
@@ -62,6 +60,7 @@ class ColorGenCommand extends Command<void> with cmd.CommandMixin {
 // ignore_for_file: public_member_api_docs
 
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 
 $enhancedColorContents
 $colorGroupContents
@@ -71,6 +70,7 @@ ${ThemeTemplate.themeEnum(name, themes)}
 ${ThemeTemplate.themes(themes)}
 ${themes.groups}
 ${ThemeTemplate.themeExtension(name, themes)}
+${themeProvider(name)}
 ''';
     outputPath.write(out);
     _runFixing(outputPath);
