@@ -46,6 +46,11 @@ class CreateCommand extends Command<void> with CommandMixin {
         valueHelp: 'My cool description',
       )
       ..addOption(
+        'iconsLauncherConfig',
+        help: "Configuration for 'icons_launcher' package. Must be relative.",
+        valueHelp: 'path/to/icons_launcher.yaml',
+      )
+      ..addOption(
         'fluttergenColors',
         help: 'Color file to be feeded to fluttergen. Must be relative.',
         valueHelp: 'path/to/assets/colors.xml',
@@ -379,6 +384,23 @@ class CreateCommand extends Command<void> with CommandMixin {
       }
 
       executeProcess('flutter', args: <String>['gen-l10n']);
+      if (iconsLauncherConfig != null) {
+        final String cur = pwd;
+        Directory.current = Directory.current.parent;
+        final String iconsLauncher = join(pwd, 'icons_launcher.yaml')
+          ..write(File(iconsLauncherConfig!).readAsStringSync());
+        Directory.current = cur;
+        executeProcess(
+          'flutter',
+          args: <String>[
+            'pub',
+            'run',
+            'icons_launcher:create',
+            '--path',
+            iconsLauncher,
+          ],
+        );
+      }
       if (fluttergen) {
         try {
           executeProcess('fluttergen');
@@ -489,6 +511,7 @@ class CreateCommand extends Command<void> with CommandMixin {
     isDart = args['dart'] as bool? ?? false;
     _name = args['name']?.toString() ?? '';
     org = args['org']?.toString();
+    iconsLauncherConfig = args['iconsLauncherConfig']?.toString();
     fluttergenColors = args['fluttergenColors']?.toString();
     fluttergen = bool.parse(args['fluttergen']?.toString() ?? 'true');
     _description = args['description']?.toString();
@@ -513,6 +536,7 @@ class CreateCommand extends Command<void> with CommandMixin {
   @override
   String get name => cmd.Command.create.name;
 
+  String? iconsLauncherConfig;
   String? fluttergenColors;
   bool fluttergen = true;
 }
