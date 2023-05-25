@@ -51,6 +51,11 @@ class CreateCommand extends Command<void> with CommandMixin {
         valueHelp: 'path/to/icons_launcher.yaml',
       )
       ..addOption(
+        'colorgen',
+        help: 'Path to colors.xml for colorgen. Must be relative.',
+        valueHelp: 'path/to/colors.xml',
+      )
+      ..addOption(
         'fluttergenColors',
         help: 'Color file to be feeded to fluttergen. Must be relative.',
         valueHelp: 'path/to/assets/colors.xml',
@@ -424,7 +429,19 @@ class CreateCommand extends Command<void> with CommandMixin {
           platforms: platforms,
         ).appLevelBuildGradle,
       );
-      executeProcess('helpis', args: <String>['colorgen', '-n', _name]);
+      if (colorgen != null) {
+        final String colors = join(pwd, 'assets', 'color', 'colors.xml');
+        final String cur = pwd;
+        Directory.current = Directory.current.parent;
+        final String xml = File(colorgen!).readAsStringSync();
+        Directory.current = cur;
+        colors.write(xml);
+      }
+      executeProcess(
+        'helpis',
+        args: <String>['colorgen', '--name', _name],
+      );
+      executeProcess('helpis', args: <String>['createStore', '--name', _name]);
     }
   }
 
@@ -512,6 +529,7 @@ class CreateCommand extends Command<void> with CommandMixin {
     _name = args['name']?.toString() ?? '';
     org = args['org']?.toString();
     iconsLauncherConfig = args['iconsLauncherConfig']?.toString();
+    colorgen = args['colorgen']?.toString();
     fluttergenColors = args['fluttergenColors']?.toString();
     fluttergen = bool.parse(args['fluttergen']?.toString() ?? 'true');
     _description = args['description']?.toString();
@@ -538,6 +556,7 @@ class CreateCommand extends Command<void> with CommandMixin {
 
   String? iconsLauncherConfig;
   String? fluttergenColors;
+  String? colorgen;
   bool fluttergen = true;
 }
 
