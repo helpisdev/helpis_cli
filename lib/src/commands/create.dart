@@ -566,11 +566,26 @@ class CreateCommand extends Command<void> with CommandMixin {
   @override
   String get name => cmd.Command.create.name;
 
+  String version = '0.0.0+1';
+  String ide = 'vscode';
+  String _name = '';
+  String? _description;
+  String? org;
   String? l10n;
+  String? repository;
+  String? homepage;
+  String? author;
+  String? authorUsername;
+  String? revolt;
   String? iconsLauncherConfig;
   String? fluttergenColors;
   String? colorgen;
+  bool isDart = false;
   bool fluttergen = true;
+  List<dynamic> locales = <dynamic>[];
+  List<dynamic> flavors = <dynamic>[];
+  List<dynamic> submodules = <dynamic>[];
+  List<dynamic> platforms = <dynamic>[];
 }
 
 class _PlatformDependentConfig {
