@@ -24,3 +24,5 @@ dependency_overrides:
 
 executables:
   helpis:
+dev_dependencies:
+  melos: ^3.1.0
