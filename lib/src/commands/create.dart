@@ -61,6 +61,11 @@ class CreateCommand extends Command<void> with CommandMixin {
         valueHelp: 'path/to/assets/colors.xml',
       )
       ..addOption(
+        'l10n',
+        help: 'l10n.yaml config. Must be relative.',
+        valueHelp: 'path/to/l10n.yaml',
+      )
+      ..addOption(
         'author',
         help: 'The name of the code owner.',
         valueHelp: 'John Doe',
@@ -253,13 +258,19 @@ class CreateCommand extends Command<void> with CommandMixin {
   }
 
   void _configLocalization() {
-    final String arbDir = join(pwd, 'assets', 'l10n');
-    if (!exists(arbDir)) {
-      createDir(arbDir, recursive: true);
+    if (l10n != null) {
+      final String cur = pwd;
+      Directory.current = Directory.current.parent;
+      join(cur, 'l10n.yaml').write(File(l10n!).readAsStringSync());
+      Directory.current = cur;
     }
-    for (final dynamic locale in locales) {
-      final String arb = arbTemplate(locale.toString(), _name);
-      join(arbDir, 'app_$locale.arb').write(arb);
+    final String path = join(pwd, 'assets', 'l10n');
+    if (!exists(path)) {
+      createDir(path, recursive: true);
+      for (final dynamic locale in locales) {
+        final String arbTemp = arbTemplate(locale.toString(), _name);
+        join(path, 'app_$locale.arb').write(arbTemp);
+      }
     }
   }
 
@@ -528,6 +539,7 @@ class CreateCommand extends Command<void> with CommandMixin {
     isDart = args['dart'] as bool? ?? false;
     _name = args['name']?.toString() ?? '';
     org = args['org']?.toString();
+    l10n = args['l10n']?.toString();
     iconsLauncherConfig = args['iconsLauncherConfig']?.toString();
     colorgen = args['colorgen']?.toString();
     fluttergenColors = args['fluttergenColors']?.toString();
@@ -554,6 +566,7 @@ class CreateCommand extends Command<void> with CommandMixin {
   @override
   String get name => cmd.Command.create.name;
 
+  String? l10n;
   String? iconsLauncherConfig;
   String? fluttergenColors;
   String? colorgen;
