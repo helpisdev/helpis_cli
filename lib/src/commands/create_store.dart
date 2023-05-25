@@ -41,9 +41,10 @@ class CreateStoreCommand extends Command<void> with commands.CommandMixin {
       )
       ..addMultiOption(
         'keys',
+        defaultsTo: <String>['isDarkMode-true', "locale-'en'"],
         help: 'Storage retrieval keys. '
             'You can specify a default value by appending a - and the value.',
-        valueHelp: 'isDarkMode-true,locale-en_us',
+        valueHelp: "isDarkMode-true,locale-'en'",
       );
   }
 
