@@ -1,8 +1,8 @@
 import 'package:args/command_runner.dart';
-import 'package:dart_casing/dart_casing.dart';
 import 'package:dcli/dcli.dart';
 import 'package:path/path.dart';
 
+import 'colorgen/utils.dart';
 import 'commands.dart' as commands;
 
 /// Creates a storage cache with shared_preferences.
@@ -68,7 +68,7 @@ class CreateStoreCommand extends Command<void> with commands.CommandMixin {
     part = args['part'].toString();
     appName = bool.tryParse(args['unedited'].toString()) ?? false
         ? name
-        : Casing.pascalCase(name);
+        : name.toPascalCase;
     keys = args['keys'] as List<Map<String, Object?>>?;
     if (args['imports'] is String) {
       args['imports'] = <String>[(args['imports'] as String?)!];
