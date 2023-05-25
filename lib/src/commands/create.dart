@@ -24,13 +24,11 @@ class CreateCommand extends Command<void> with CommandMixin {
     argParser
       ..addFlag(
         'dart',
-        abbr: 'd',
         help: 'Raw Dart project. Defaults to false.',
         negatable: false,
       )
       ..addOption(
         'name',
-        abbr: 'n',
         help: "The project's name. The package's name should follow Dart's "
             'naming guidelines.',
         valueHelp: 'my_awesome_project',
@@ -38,56 +36,46 @@ class CreateCommand extends Command<void> with CommandMixin {
       )
       ..addOption(
         'description',
-        abbr: 'D',
         help: "The project's description.",
         valueHelp: 'My cool description',
       )
       ..addOption(
         'author',
-        abbr: 'a',
         help: 'The name of the code owner.',
         valueHelp: 'John Doe',
       )
       ..addOption(
         'authorUsername',
-        abbr: 'A',
         help: 'The user github handle.',
         valueHelp: 'helpisdev',
       )
       ..addOption(
         'version',
-        abbr: 'v',
         defaultsTo: '1.0.0+1',
         help: "The project's version",
         valueHelp: '0.21.7-0.beta+1.3324',
       )
       ..addOption(
         'repository',
-        abbr: 'r',
         help: "The project's repository.",
         valueHelp: 'https://github.com/author/my_project',
       )
       ..addOption(
         'homepage',
-        abbr: 'H',
         help: "The project's homepage.",
         valueHelp: 'https://my_project.github.io',
       )
       ..addOption(
         'org',
-        abbr: 'o',
         help: 'The organization domain. Used for bundle IDs.',
         valueHelp: 'com.example',
       )
       ..addOption(
         'revolt',
-        abbr: 'R',
         help: 'The Revolt chat server for the project.',
         valueHelp: 'revolt.example.com/my_project',
       )
       ..addOption(
-        'IDE',
-        abbr: 'i',
         help: 'Choose your development IDE. Defaults to "idea"',
         defaultsTo: 'vscode',
         allowedHelp: <String, String>{
@@ -98,7 +86,6 @@ class CreateCommand extends Command<void> with CommandMixin {
       )
       ..addMultiOption(
         'platforms',
-        abbr: 'p',
         help: 'Platforms to configure',
         allowedHelp: <String, String>{
           'web': 'Support for the web platform',
@@ -120,7 +107,6 @@ class CreateCommand extends Command<void> with CommandMixin {
       )
       ..addMultiOption(
         'submodules',
-        abbr: 's',
         help: 'Packages configured as Git submodules. If the module starts '
             'with "http", then it is added as a url, otherwise it is treated '
             'as a local git repository and `git init` is run in it. Submodules '
@@ -133,13 +119,11 @@ class CreateCommand extends Command<void> with CommandMixin {
       )
       ..addMultiOption(
         'flavors',
-        abbr: 'f',
         help: 'Generate different flavors for the package.',
         valueHelp: 'development,production',
       )
       ..addMultiOption(
         'locales',
-        abbr: 'L',
         help: 'Translation locales used in the project '
             'to generate template .arb files.',
         valueHelp: 'en,el',

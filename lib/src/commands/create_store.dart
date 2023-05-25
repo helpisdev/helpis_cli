@@ -12,13 +12,11 @@ class CreateStoreCommand extends Command<void> with commands.CommandMixin {
     argParser
       ..addFlag(
         'unedited',
-        abbr: 'u',
         help: "Use this flag to use the app's name unedited.",
         negatable: false,
       )
       ..addOption(
         'name',
-        abbr: 'n',
         defaultsTo: 'App',
         help: "The project's name. Used in naming classes and fields. "
             '\nInterpreted as PascalCase. Can be overridden using the -u flag.',
@@ -26,28 +24,23 @@ class CreateStoreCommand extends Command<void> with commands.CommandMixin {
       )
       ..addOption(
         'part',
-        abbr: 'p',
         help: r'''Use this option to add a 'part of __$part__' directive.''',
         valueHelp: 'helpis',
       )
       ..addOption(
         'target',
-        abbr: 't',
         help: 'The path to generate the dart file.',
         valueHelp: 'lib/src/service/cache',
         defaultsTo: 'lib/src/service/cache',
       )
       ..addMultiOption(
         'imports',
-        abbr: 'i',
         help: 'User defined imports.',
         defaultsTo: <String>[],
         valueHelp: 'package:flutter/material.dart',
       )
       ..addMultiOption(
         'keys',
-        abbr: 'k',
-        defaultsTo: <String>['isDarkMode', 'locale'],
         help: 'Storage retrieval keys. '
             'You can specify a default value by appending a - and the value.',
         valueHelp: 'isDarkMode-true,locale-en_us',
