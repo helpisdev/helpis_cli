@@ -63,7 +63,7 @@ environment:
   ${!isDart ? 'flutter: ">=3.10.0"' : ''}
 
 dependencies:
-  ${!isDart ? '''
+${!isDart ? '''
   flutter:
     sdk: flutter
   flutter_localizations:
