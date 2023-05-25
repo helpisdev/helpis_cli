@@ -59,7 +59,7 @@ class CreateStoreCommand extends Command<void> with commands.CommandMixin {
     final StringBuffer buffer = StringBuffer();
     _arguments();
     final String name = args['name'].toString();
-    part = args['part'].toString();
+    part = args['part']?.toString();
     appName = bool.tryParse(args['unedited'].toString()) ?? false
         ? name
         : name.toPascalCase;
