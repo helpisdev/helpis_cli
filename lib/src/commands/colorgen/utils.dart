@@ -27,16 +27,12 @@ extension Utils on String {
   }
 
   /// Tranforms a [String] to camelCase.
-  String get toCamelCase => splitMapJoin(
-        '[-_]',
-        onMatch: (final Match match) => match.input
-            .substring(
-              match.start,
-              match.end,
-            )
-            .toLowerCase()
-            .toFirstCapital,
-      ).toFirstLower;
+  String get toCamelCase => split('-')
+      .map((final String e) => e.split('_'))
+      .expand((final List<String> e) => e)
+      .map((final String e) => e.toFirstCapital)
+      .join()
+      .toFirstLower;
 
   /// Tranforms a [String] to PascalCase.
   String get toPascalCase => toCamelCase.toFirstCapital;
