@@ -128,7 +128,7 @@ class StorageService {
         '${pair.keys.first}.name, ${pair.values.first});',
       );
     }
-    buffer.writeln('''
+    buffer.writeln(r'''
   }
 
   SharedPreferences? _box;
@@ -145,6 +145,8 @@ class StorageService {
 /// Storage getter
 StorageService get storage => StorageService.instance();
 
+typedef ListString = List<String>;
+
 /// Utilities to safely access cache or null
 extension SafeReadWrite on SharedPreferences {
   /// Write a value if it doesn't exist already or is null
@@ -157,11 +159,11 @@ extension SafeReadWrite on SharedPreferences {
   /// Write alias
   Future<void> write(final String key, final Object val) async =>
     switch (val) {
-      bool => await setBool(key, val),
-      int => await setInt(key, val),
-      double => await setDouble(key, val),
-      String => await setString(key, val),
-      List<String> => await setStringList(key, val),
+      bool => await setBool(key, bool.parse(val.toString())),
+      int => await setInt(key, int.parse(val.toString())),
+      double => await setDouble(key, double.parse(val.toString())),
+      String => await setString(key, val.toString()),
+      ListString => await setStringList(key, val as ListString),
       _ => throw StateError(
         'Unsupported type. Supported value types are:'
         \n'\\n- bool'\n'\\n- int'\n'\\n- double'
