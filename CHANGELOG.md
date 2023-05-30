@@ -3,6 +3,45 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-05-30
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - [`helpis_cli` - `v0.2.0`](#helpis_cli---v020)
+
+Packages with other changes:
+
+ - There are no other changes in this release.
+
+---
+
+#### `helpis_cli` - `v0.2.0`
+
+ - **FIX**(create): Comment out and add desc for generate: true option in pubspec since we don't create a synthetic package as of l10n.yaml in mason template. ([79c60fad](https://github.com/helpisdev/helpis_cli.git/commit/79c60fad3e3000eb0e35e0208e08372502939036))
+ - **FIX**(create): Respect user choice not to include flutter_gen for flutter_gen_runner as well. ([1a50a986](https://github.com/helpisdev/helpis_cli.git/commit/1a50a9861cee74262ef0f8c3d320e23abb35ddc1))
+ - **FIX**(colorgen): Make sure generated names have correct camelCase casing. ([56bbfb11](https://github.com/helpisdev/helpis_cli.git/commit/56bbfb11e705a8ad9d736f703077683b48457a87))
+ - **FEAT**(create): Add melos as a dep dependency in generated projects. ([0e8d9187](https://github.com/helpisdev/helpis_cli.git/commit/0e8d9187e54be4dcb8e5b5fa2031e0b9cd52d546))
+ - **FEAT**(theme_provider): Change the default theme mode from system to light for more predictability. ([67143c2e](https://github.com/helpisdev/helpis_cli.git/commit/67143c2e3dcd236249f1baab3ab4e8e581e6f9c7))
+ - **FEAT**(theme_provider): Enable theme provider only if there is at least one dual light/dark theme available. ([c3d0a79f](https://github.com/helpisdev/helpis_cli.git/commit/c3d0a79f6ce028263978d8ecb5aba19e6fbc4ec3))
+ - **BREAKING** **FEAT**(theme_provider): Add switch theme helper, change API so that theme can be changed through mode as well. ([ef3b1e15](https://github.com/helpisdev/helpis_cli.git/commit/ef3b1e15e9b75551eb43c50053746a5e9f297075))
+
+## 0.2.0
+
+> Note: This release has breaking changes.
+
+ - **FIX**(create): Comment out and add desc for generate: true option in pubspec since we don't create a synthetic package as of l10n.yaml in mason template. ([79c60fad](https://github.com/helpisdev/helpis_cli.git/commit/79c60fad3e3000eb0e35e0208e08372502939036))
+ - **FIX**(create): Respect user choice not to include flutter_gen for flutter_gen_runner as well. ([1a50a986](https://github.com/helpisdev/helpis_cli.git/commit/1a50a9861cee74262ef0f8c3d320e23abb35ddc1))
+ - **FIX**(colorgen): Make sure generated names have correct camelCase casing. ([56bbfb11](https://github.com/helpisdev/helpis_cli.git/commit/56bbfb11e705a8ad9d736f703077683b48457a87))
+ - **FEAT**(create): Add melos as a dep dependency in generated projects. ([0e8d9187](https://github.com/helpisdev/helpis_cli.git/commit/0e8d9187e54be4dcb8e5b5fa2031e0b9cd52d546))
+ - **FEAT**(theme_provider): Change the default theme mode from system to light for more predictability. ([67143c2e](https://github.com/helpisdev/helpis_cli.git/commit/67143c2e3dcd236249f1baab3ab4e8e581e6f9c7))
+ - **FEAT**(theme_provider): Enable theme provider only if there is at least one dual light/dark theme available. ([c3d0a79f](https://github.com/helpisdev/helpis_cli.git/commit/c3d0a79f6ce028263978d8ecb5aba19e6fbc4ec3))
+ - **BREAKING** **FEAT**(theme_provider): Add switch theme helper, change API so that theme can be changed through mode as well. ([ef3b1e15](https://github.com/helpisdev/helpis_cli.git/commit/ef3b1e15e9b75551eb43c50053746a5e9f297075))
+
+
 ## 2023-05-25
 
 ### Changes
