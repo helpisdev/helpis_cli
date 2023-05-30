@@ -103,7 +103,7 @@ dev_dependencies:
   build_web_compilers: any
   build_test: any
   build_runner: any
-  ${!isDart ? '''flutter_gen_runner: any
+  melos: any
   bdd_widget_test: any
   go_router_builder: any
   ${flavors.isNotEmpty ? 'flutter_flavorizr: any' : ''}
