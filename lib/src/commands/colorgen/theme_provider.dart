@@ -19,7 +19,7 @@ class Theming extends StatefulWidget {
 typedef ${appName.toPascalCase}EnhancedTheme = ${appName.toPascalCase}Theme<AllTagsAndGroupsEnhancedTheme>;
 
 class _ThemingState extends State<Theming> {
-  ThemeMode mode = ThemeMode.system;
+  ThemeMode mode = ThemeMode.light;
   EnhancedThemeMode _enhancedThemeMode = EnhancedThemeMode.light;
   ${appName.toPascalCase}Theme<AllTagsAndGroupsEnhancedTheme> light = ${appName.toPascalCase}Theme.rustLightTheme;
   ${appName.toPascalCase}Theme<AllTagsAndGroupsEnhancedTheme> dark = ${appName.toPascalCase}Theme.rustDarkTheme;
