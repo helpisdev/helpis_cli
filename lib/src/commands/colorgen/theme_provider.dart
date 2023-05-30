@@ -1,6 +1,6 @@
 import 'utils.dart';
 
-String themeProvider(final String appName) => '''
+String themeProvider(final String appName, final String themeName) => '''
 class Theming extends StatefulWidget {
   const Theming({
     required this.child,
@@ -15,6 +15,8 @@ class Theming extends StatefulWidget {
   @override
   State<Theming> createState() => _ThemingState();
 }
+
+typedef ${appName.toPascalCase}EnhancedTheme = ${appName.toPascalCase}Theme<AllTagsAndGroupsEnhancedTheme>;
 
 class _ThemingState extends State<Theming> {
   ThemeMode mode = ThemeMode.system;
@@ -98,8 +100,8 @@ class ThemeProvider extends InheritedWidget {
   final GlobalThemeKey themingKey;
 
   final ThemeMode mode;
-  final ${appName.toPascalCase}Theme<AllTagsAndGroupsEnhancedTheme> light;
-  final ${appName.toPascalCase}Theme<AllTagsAndGroupsEnhancedTheme> dark;
+  final ${appName.toPascalCase}EnhancedTheme light;
+  final ${appName.toPascalCase}EnhancedTheme dark;
 
   static ThemeProvider? maybeOf(final BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<ThemeProvider>();

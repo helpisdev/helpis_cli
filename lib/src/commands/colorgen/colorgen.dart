@@ -1,4 +1,5 @@
 import 'package:args/command_runner.dart';
+import 'package:collection/collection.dart';
 import 'package:dcli/dcli.dart';
 import 'package:path/path.dart';
 import 'package:universal_io/io.dart';
@@ -53,6 +54,13 @@ class ColorGenCommand extends Command<void> with cmd.CommandMixin {
     final XmlDocument colorsDoc = XmlDocument.parse(xml);
 
     final EnhancedThemeBucket themes = colorsDoc.extractThemes()..ensureValid();
+    final EnhancedTheme? dualTheme = themes.firstWhereOrNull(
+      (final EnhancedTheme theme) => themes.any(
+        (final EnhancedTheme other) =>
+            other.name == theme.name &&
+            other.mode == theme.mode.oppositeEnhanced,
+      ),
+    );
 
     final String out = '''
 // GENERATED CODE FILE -- DO NOT EDIT BY HAND!!!
@@ -70,7 +78,7 @@ ${ThemeTemplate.themeEnum(name, themes)}
 ${ThemeTemplate.themes(themes)}
 ${themes.groups}
 ${ThemeTemplate.themeExtension(name, themes)}
-${themeProvider(name)}
+${dualTheme != null ? themeProvider(name, dualTheme.name.toCamelCase) : ''}
 ''';
     outputPath.write(out);
     _runFixing(outputPath);
