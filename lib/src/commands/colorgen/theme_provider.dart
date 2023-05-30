@@ -21,17 +21,18 @@ typedef ${appName.toPascalCase}EnhancedTheme = ${appName.toPascalCase}Theme<AllT
 class _ThemingState extends State<Theming> {
   ThemeMode mode = ThemeMode.light;
   EnhancedThemeMode _enhancedThemeMode = EnhancedThemeMode.light;
-  ${appName.toPascalCase}Theme<AllTagsAndGroupsEnhancedTheme> light = ${appName.toPascalCase}Theme.rustLightTheme;
-  ${appName.toPascalCase}Theme<AllTagsAndGroupsEnhancedTheme> dark = ${appName.toPascalCase}Theme.rustDarkTheme;
+  ${appName.toPascalCase}EnhancedTheme light = ${appName.toPascalCase}Theme.${themeName}LightTheme;
+  ${appName.toPascalCase}EnhancedTheme dark = ${appName.toPascalCase}Theme.${themeName}DarkTheme;
 
-  void switchTheme([
-    final ${appName.toPascalCase}Theme<AllTagsAndGroupsEnhancedTheme>? theme,
-  ]) {
-    setState(
-      () {
-        if (theme != null) {
-          final EnhancedThemeMode mode = theme.themeData.mode;
-          switch (mode) {
+  void changeTheme({
+    final ${appName.toPascalCase}EnhancedTheme? theme,
+    final EnhancedThemeMode? mode,
+  }) {
+    if (theme != null) {
+      setState(
+        () {
+          final EnhancedThemeMode themeMode = theme.themeData.mode;
+          switch (themeMode) {
             case EnhancedThemeMode.light:
               light = theme;
               break;
@@ -39,18 +40,28 @@ class _ThemingState extends State<Theming> {
               dark = theme;
               break;
           }
-          this.mode = mode.equivalent;
-        } else {
-          mode = _enhancedThemeMode.opposite;
-          _enhancedThemeMode = EnhancedThemeMode.of(mode.name);
-        }
-      },
-    );
+          this.mode = themeMode.equivalent;
+        },
+      );
+    }
+    if (mode != null) {
+      setState(
+        () {
+          _enhancedThemeMode = mode;
+          this.mode = _enhancedThemeMode.equivalent;
+        },
+      );
+    }
   }
 
   EnhancedThemeMode get enhancedThemeMode => _enhancedThemeMode;
-  set enhancedThemeMode(final EnhancedThemeMode mode) =>
-      setState(() => _enhancedThemeMode = mode);
+  set enhancedThemeMode(final EnhancedThemeMode mode) {
+    changeTheme(mode: mode);
+  }
+
+  void switchTheme() => changeTheme(
+    mode: EnhancedThemeMode.of(enhancedThemeMode.opposite.name),
+  );
 
   @override
   Widget build(final BuildContext context) => ThemeProvider(
@@ -118,10 +129,13 @@ class ThemeProvider extends InheritedWidget {
   set enhancedThemeMode(final EnhancedThemeMode mode) =>
       themingKey.currentState?.enhancedThemeMode = mode;
 
-  void switchTheme([
-    final ${appName.toPascalCase}Theme<AllTagsAndGroupsEnhancedTheme>? theme,
-  ]) =>
-      themingKey.currentState?.switchTheme(theme);
+  void changeTheme({
+    final ${appName.toPascalCase}EnhancedTheme? theme,
+    final EnhancedThemeMode? mode,
+  }) =>
+      themingKey.currentState?.changeTheme(theme: theme, mode: mode);
+
+  void switchTheme() => themingKey.currentState?.switchTheme();
 
   @override
   bool updateShouldNotify(final ThemeProvider oldWidget) =>
