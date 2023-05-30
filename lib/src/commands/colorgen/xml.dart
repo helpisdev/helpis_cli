@@ -16,8 +16,8 @@ extension Extraction on XmlDocument {
       final EnhancedColorRegistry ungroupedColors = extractColors(xmlUngrouped);
       final ColorGroupBucket groups = extractGroups(xmlGroups, xmlTheme);
 
-      final ColorThemeName themeName = xmlTheme.getAttribute('name')!
-        ..validate();
+      final ColorThemeName themeName =
+          xmlTheme.getAttribute('name')!.toCamelCase..validate();
       final EnhancedThemeMode mode = EnhancedThemeMode.of(
         xmlTheme.getAttribute('mode'),
       );
@@ -43,8 +43,8 @@ extension Extraction on XmlDocument {
     for (final XmlElement xmlGroup in xmlGroups) {
       final Iterable<XmlElement> xmlColors = xmlGroup.findElements('color');
       final EnhancedColorRegistry colors = extractColors(xmlColors);
-      final ColorGroupName groupName = xmlGroup.getAttribute('name')!
-        ..validate();
+      final ColorGroupName groupName =
+          xmlGroup.getAttribute('name')!.toCamelCase..validate();
       groups.add(ColorGroup(groupName, colors: colors));
     }
 
@@ -54,7 +54,8 @@ extension Extraction on XmlDocument {
   EnhancedColorRegistry extractColors(final Iterable<XmlElement> xmlColors) {
     final EnhancedColorRegistry colors = <ColorName, EnhancedColor>{};
     for (final XmlElement xmlColor in xmlColors) {
-      final ColorName colorName = xmlColor.getAttribute('name')!..validate();
+      final ColorName colorName = xmlColor.getAttribute('name')!.toCamelCase
+        ..validate();
       final ColorValue colorValue = int.parse(
         xmlColor.innerText.toHex,
         radix: 16,
@@ -65,7 +66,7 @@ extension Extraction on XmlDocument {
         colorTags.addAll(
           xmlColorTags.value
               .split(RegExp(r'\s+'))
-              .map((final ColorTag tag) => tag.trim())
+              .map((final ColorTag tag) => tag.trim().toCamelCase)
             ..forEach(
               (final ColorTag tag) => tag.validate(),
             ),

@@ -41,7 +41,8 @@ class EnhancedColor {
 
   @override
   String toString() =>
-      "EnhancedColor(${value.toHex}, name: '$name', tags: ${tags.pretty},)";
+      "EnhancedColor(${value.toHex}, name: '${name.toCamelCase}', "
+      'tags: ${tags.pretty},)';
 }
 
 /// Signature for a string representing a color group name.
