@@ -127,7 +127,8 @@ ${!isDart ? '''
 flutter:
   uses-material-design: true
   # Enable generation of localized Strings from arb files.
-  generate: true
+  # uncomment the next line to generate a synthetic-package, change the equivalent in l10n.yaml
+  # generate: true
   assets:
     - assets/
     - assets/image/
