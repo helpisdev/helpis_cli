@@ -104,6 +104,7 @@ dev_dependencies:
   build_test: any
   build_runner: any
   melos: any
+  ${!isDart ? '''${fluttergen ? 'flutter_gen_runner: any' : ''}
   bdd_widget_test: any
   go_router_builder: any
   ${flavors.isNotEmpty ? 'flutter_flavorizr: any' : ''}
