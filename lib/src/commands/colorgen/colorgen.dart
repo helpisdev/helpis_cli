@@ -69,6 +69,7 @@ class ColorGenCommand extends Command<void> with cmd.CommandMixin {
 
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:utilities/extensions.dart';
 
 $enhancedColorContents
 $colorGroupContents

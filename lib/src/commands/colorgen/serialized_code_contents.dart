@@ -23,6 +23,10 @@ enum EnhancedThemeMode {
   /// The opposite [EnhancedThemeMode].
   EnhancedThemeMode get oppositeEnhanced => this == dark ? light : dark;
 
+  /// Returns the [EhnancedThemeMode] of the current brightness.
+  static EnhancedThemeMode fromBrightness(final BuildContext context) =>
+      context.isDarkMode ? dark : light;
+
   /// Transforms a [String] to a valid [EnhancedThemeMode].
   static EnhancedThemeMode of(final String? name) {
     if (name == null || name.isEmpty) {
