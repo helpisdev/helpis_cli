@@ -16,13 +16,15 @@ class Theming extends StatefulWidget {
   State<Theming> createState() => _ThemingState();
 }
 
+@Deprecated('Use AppTheme typedef instead.')
 typedef ${appName.toPascalCase}EnhancedTheme = ${appName.toPascalCase}Theme<AllTagsAndGroupsEnhancedTheme>;
+typedef AppTheme = ${appName.toPascalCase}Theme<AllTagsAndGroupsEnhancedTheme>;
 
 class _ThemingState extends State<Theming> {
-  ${appName.toPascalCase}EnhancedTheme light = ${appName.toPascalCase}Theme.${themeName}LightTheme;
-  ${appName.toPascalCase}EnhancedTheme dark = ${appName.toPascalCase}Theme.${themeName}DarkTheme;
   late EnhancedThemeMode _enhancedThemeMode;
   late ThemeMode mode;
+  AppTheme light = AppTheme.rustLightTheme;
+  AppTheme dark = AppTheme.rustDarkTheme;
 
   @override
   void initState() {
@@ -31,22 +33,24 @@ class _ThemingState extends State<Theming> {
     mode = _enhancedThemeMode.equivalent;
   }
 
+  @override
+  Widget build(final BuildContext context) => ThemeProvider(
+        mode: mode,
+        light: light,
+        dark: dark,
+        themingKey: widget.key,
+        child: widget.child,
+      );
+
   void changeTheme({
-    final ${appName.toPascalCase}EnhancedTheme? theme,
+    final AppTheme? theme,
     final EnhancedThemeMode? mode,
   }) {
     if (theme != null) {
       setState(
         () {
           final EnhancedThemeMode themeMode = theme.themeData.mode;
-          switch (themeMode) {
-            case EnhancedThemeMode.light:
-              light = theme;
-              break;
-            case EnhancedThemeMode.dark:
-              dark = theme;
-              break;
-          }
+          themeMode == EnhancedThemeMode.light ? light = theme : dark = theme;
           this.mode = themeMode.equivalent;
         },
       );
@@ -66,35 +70,14 @@ class _ThemingState extends State<Theming> {
     changeTheme(mode: mode);
   }
 
-  void switchTheme() => changeTheme(
-    mode: EnhancedThemeMode.of(enhancedThemeMode.opposite.name),
-  );
-
-  @override
-  Widget build(final BuildContext context) => ThemeProvider(
-        mode: mode,
-        light: light,
-        dark: dark,
-        themingKey: widget.key,
-        child: widget.child,
-      );
+  void switchTheme() => changeTheme(mode: enhancedThemeMode.oppositeEnhanced);
 
   @override
   void debugFillProperties(final DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(
-        DiagnosticsProperty<${appName.toPascalCase}Theme<AllTagsAndGroupsEnhancedTheme>>(
-          'dark',
-          dark,
-        ),
-      )
-      ..add(
-        DiagnosticsProperty<${appName.toPascalCase}Theme<AllTagsAndGroupsEnhancedTheme>>(
-          'light',
-          light,
-        ),
-      )
+      ..add(DiagnosticsProperty<AppTheme>('dark', dark))
+      ..add(DiagnosticsProperty<AppTheme>('light', light))
       ..add(EnumProperty<ThemeMode>('mode', mode))
       ..add(
         EnumProperty<EnhancedThemeMode>(
@@ -118,8 +101,8 @@ class ThemeProvider extends InheritedWidget {
   final GlobalThemeKey themingKey;
 
   final ThemeMode mode;
-  final ${appName.toPascalCase}EnhancedTheme light;
-  final ${appName.toPascalCase}EnhancedTheme dark;
+  final AppTheme light;
+  final AppTheme dark;
 
   static ThemeProvider? maybeOf(final BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<ThemeProvider>();
@@ -137,7 +120,7 @@ class ThemeProvider extends InheritedWidget {
       themingKey.currentState?.enhancedThemeMode = mode;
 
   void changeTheme({
-    final ${appName.toPascalCase}EnhancedTheme? theme,
+    final AppTheme? theme,
     final EnhancedThemeMode? mode,
   }) =>
       themingKey.currentState?.changeTheme(theme: theme, mode: mode);
@@ -154,13 +137,9 @@ class ThemeProvider extends InheritedWidget {
   void debugFillProperties(final DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(
-        EnumProperty<${appName.toPascalCase}Theme<AllTagsAndGroupsEnhancedTheme>>('light', light),
-      )
+      ..add(DiagnosticsProperty<AppTheme>('dark', dark))
+      ..add(DiagnosticsProperty<AppTheme>('light', light))
       ..add(EnumProperty<ThemeMode>('mode', mode))
-      ..add(
-        EnumProperty<${appName.toPascalCase}Theme<AllTagsAndGroupsEnhancedTheme>>('dark', dark),
-      )
       ..add(DiagnosticsProperty<GlobalThemeKey>('themingKey', themingKey))
       ..add(
         EnumProperty<EnhancedThemeMode>(
