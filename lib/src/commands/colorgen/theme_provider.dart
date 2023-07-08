@@ -16,9 +16,10 @@ class Theming extends StatefulWidget {
   State<Theming> createState() => _ThemingState();
 }
 
-@Deprecated('Use AppTheme typedef instead.')
-typedef ${appName.toPascalCase}EnhancedTheme = ${appName.toPascalCase}Theme<AllTagsAndGroupsEnhancedTheme>;
 typedef AppTheme = ${appName.toPascalCase}Theme<AllTagsAndGroupsEnhancedTheme>;
+
+@Deprecated('Use AppTheme typedef instead.')
+typedef ${appName.toPascalCase}EnhancedTheme = AppTheme;
 
 class _ThemingState extends State<Theming> {
   late EnhancedThemeMode _enhancedThemeMode;
@@ -42,10 +43,7 @@ class _ThemingState extends State<Theming> {
         child: widget.child,
       );
 
-  void changeTheme({
-    final AppTheme? theme,
-    final EnhancedThemeMode? mode,
-  }) {
+  void changeTheme({final AppTheme? theme, final EnhancedThemeMode? mode}) {
     if (theme != null) {
       setState(
         () {
@@ -56,12 +54,7 @@ class _ThemingState extends State<Theming> {
       );
     }
     if (mode != null) {
-      setState(
-        () {
-          _enhancedThemeMode = mode;
-          this.mode = _enhancedThemeMode.equivalent;
-        },
-      );
+      setState(() => this.mode = (_enhancedThemeMode = mode).equivalent);
     }
   }
 
@@ -119,10 +112,7 @@ class ThemeProvider extends InheritedWidget {
   set enhancedThemeMode(final EnhancedThemeMode mode) =>
       themingKey.currentState?.enhancedThemeMode = mode;
 
-  void changeTheme({
-    final AppTheme? theme,
-    final EnhancedThemeMode? mode,
-  }) =>
+  void changeTheme({final AppTheme? theme, final EnhancedThemeMode? mode}) =>
       themingKey.currentState?.changeTheme(theme: theme, mode: mode);
 
   void switchTheme() => themingKey.currentState?.switchTheme();
@@ -142,10 +132,7 @@ class ThemeProvider extends InheritedWidget {
       ..add(EnumProperty<ThemeMode>('mode', mode))
       ..add(DiagnosticsProperty<GlobalThemeKey>('themingKey', themingKey))
       ..add(
-        EnumProperty<EnhancedThemeMode>(
-          'enhancedThemeMode',
-          enhancedThemeMode,
-        ),
+        EnumProperty<EnhancedThemeMode>('enhancedThemeMode', enhancedThemeMode),
       );
   }
 }
