@@ -1,6 +1,7 @@
 import 'utils.dart';
 
 String themeProvider(final String appName, final String themeName) => '''
+/// Handles app theming.
 class Theming extends StatefulWidget {
   const Theming({
     required this.child,
@@ -16,6 +17,7 @@ class Theming extends StatefulWidget {
   State<Theming> createState() => _ThemingState();
 }
 
+/// Shorthand for [${appName.toPascalCase}Theme].
 typedef AppTheme = ${appName.toPascalCase}Theme<AllTagsAndGroupsEnhancedTheme>;
 
 @Deprecated('Use AppTheme typedef instead.')
@@ -73,14 +75,12 @@ class _ThemingState extends State<Theming> {
       ..add(DiagnosticsProperty<AppTheme>('light', light))
       ..add(EnumProperty<ThemeMode>('mode', mode))
       ..add(
-        EnumProperty<EnhancedThemeMode>(
-          'enhancedThemeMode',
-          enhancedThemeMode,
-        ),
+        EnumProperty<EnhancedThemeMode>('enhancedThemeMode', enhancedThemeMode),
       );
   }
 }
 
+/// Provides theming utility functions and information.
 class ThemeProvider extends InheritedWidget {
   const ThemeProvider({
     required super.child,
@@ -91,11 +91,20 @@ class ThemeProvider extends InheritedWidget {
     super.key,
   });
 
+  /// Key of the theme handler.
   final GlobalThemeKey themingKey;
 
+  /// Current theme mode.
   final ThemeMode mode;
+
+  /// Light theme.
   final AppTheme light;
+
+  /// Dark theme.
   final AppTheme dark;
+
+  /// Current active theme.
+  AppTheme get currentTheme => mode == ThemeMode.light ? light : dark;
 
   static ThemeProvider? maybeOf(final BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<ThemeProvider>();
@@ -106,8 +115,7 @@ class ThemeProvider extends InheritedWidget {
     return result!;
   }
 
-  EnhancedThemeMode get enhancedThemeMode =>
-      themingKey.currentState!.enhancedThemeMode;
+  EnhancedThemeMode get enhancedThemeMode => EnhancedThemeMode.of(mode.name);
 
   set enhancedThemeMode(final EnhancedThemeMode mode) =>
       themingKey.currentState?.enhancedThemeMode = mode;
