@@ -86,6 +86,7 @@ library storage_service;
 
 import 'dart:core';
 
+import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 ''');
     for (final String i in imports ?? <String>[]) {
@@ -123,10 +124,19 @@ class StorageService {
     _box = await SharedPreferences.getInstance();
   ''');
     for (final Map<String, Object?> pair in keys ?? <Map<String, Object?>>{}) {
-      buffer.writeln(
-        'await _box!.writeIfNull(StorageKey.'
-        '${pair.keys.first}.name, ${pair.values.first});',
-      );
+      final String storageKey = pair.keys.first;
+      final Object? storageValue = pair.values.first;
+      final String writeMethod = storageValue == null ? 'write' : 'writeIfNull';
+      buffer
+        ..writeln(
+          'if (!_box!.containsKey(StorageKey.$storageKey.name)) {',
+        )
+        ..writeln(
+          'await _box!.$writeMethod(StorageKey.$storageKey.name, '
+          '$storageValue);',
+        )
+        ..writeln('}')
+        ..writeln();
     }
     buffer.writeln(r'''
   }
@@ -138,8 +148,8 @@ class StorageService {
   T? read<T>(final String key) => storage._box?.get(key) as T?;
 
   /// Writes a value to the cache
-  Future<void> write(final String key, final Object value) async =>
-      storage._box?.write(key, value);
+  Future<bool> write(final String key, final Object? value) async =>
+      storage._box?.write(key, value) ?? Future<bool>.value(false);
 }
 
 /// Storage getter
@@ -150,34 +160,46 @@ typedef ListString = List<String>;
 /// Utilities to safely access cache or null
 extension SafeReadWrite on SharedPreferences {
   /// Write a value if it doesn't exist already or is null
-  Future<void> writeIfNull(final String key, final Object val) async {
-    if (!containsKey(key) || (containsKey(key) && get(key) == null)) {
-      await write(key, val);
+  Future<bool> writeIfNull(final String key, final Object val) async {
+    if (!containsKey(key) || get(key) == null) {
+      return write(key, val);
     }
+
+    return false;
   }
 
   /// Write alias
-  Future<void> write(final String key, final Object val) async =>
-    switch (val) {
+  Future<bool> write(final String key, final Object? val) async {
+    if (val == null) {
+      // Assigning null is not supported, but trying to access a non-existant
+      // key will also return null, so we remove the key if it exists.
+      if (containsKey(key)) {
+        return remove(key);
+      }
+      return true;
+    }
+    return switch (val.runtimeType) {
       bool => await setBool(key, bool.parse(val.toString())),
       int => await setInt(key, int.parse(val.toString())),
       double => await setDouble(key, double.parse(val.toString())),
       String => await setString(key, val.toString()),
       ListString => await setStringList(key, val as ListString),
       _ => throw StateError(
-        'Unsupported type. Supported value types are:'
-        '\n- bool'
-        '\n- int'
-        '\n- double'
-        '\n- String'
-        '\n- List',
-      ),
+          'Unsupported type ${objectRuntimeType(val, 'unknown')}.'
+          '\nSupported value types are:'
+          '\n  - bool'
+          '\n  - int'
+          '\n  - double'
+          '\n  - String'
+          '\n  - List<String>',
+        ),
     };
+  }
 }
 
 /// Keys of cached values
 enum StorageKey {
-      ''');
+''');
     for (final Map<String, Object?> pair in keys ?? <Map<String, Object?>>{}) {
       buffer
         ..writeln(pair.keys.first)
