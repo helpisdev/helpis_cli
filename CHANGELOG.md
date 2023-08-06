@@ -3,6 +3,35 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-08-06
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`helpis_cli` - `v0.2.1`](#helpis_cli---v021)
+
+---
+
+#### `helpis_cli` - `v0.2.1`
+
+ - **REFACTOR**(colorgen): Rename app theme typedef to a more readable name. ([a84cff01](https://github.com/helpisdev/helpis_cli.git/commit/a84cff01c620eb5495447125c93040c9f6e3ae15))
+ - **FIX**(createStore): Initialize store value only if it doesn't already exist. ([0dc8372b](https://github.com/helpisdev/helpis_cli.git/commit/0dc8372b36c47981171a9ecbd0995fdedc65bfb7))
+ - **FEAT**(colorgen): Add method to get the enhanced theme mode based on the current brightness and use that to initialize the enhanced theme mode on theme provider. ([9f3c62c6](https://github.com/helpisdev/helpis_cli.git/commit/9f3c62c637fc600de8abd06036c584a275922a78))
+
+## 0.2.1
+
+ - **REFACTOR**(colorgen): Rename app theme typedef to a more readable name. ([a84cff01](https://github.com/helpisdev/helpis_cli.git/commit/a84cff01c620eb5495447125c93040c9f6e3ae15))
+ - **FIX**(createStore): Initialize store value only if it doesn't already exist. ([0dc8372b](https://github.com/helpisdev/helpis_cli.git/commit/0dc8372b36c47981171a9ecbd0995fdedc65bfb7))
+ - **FEAT**(colorgen): Add method to get the enhanced theme mode based on the current brightness and use that to initialize the enhanced theme mode on theme provider. ([9f3c62c6](https://github.com/helpisdev/helpis_cli.git/commit/9f3c62c637fc600de8abd06036c584a275922a78))
+
+
 ## 2023-05-30
 
 ### Changes

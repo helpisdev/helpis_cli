@@ -1,7 +1,7 @@
 name: helpis_cli
 description: This CLI provides various commands to help with Dart/Flutter development.
 repository: https://github.com/helpisdev/helpis_cli
-version: 0.2.0
+version: 0.2.1
 publish_to: none
 
 environment:
